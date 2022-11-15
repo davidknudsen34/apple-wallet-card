@@ -2,7 +2,7 @@
   <ion-page id="app-home">
     <ion-content class="ion-padding" ref="demo" v-wheel="wheelHandler">
       <div class="header">
-        <ion-title size="large" class="float-left">Wallet</ion-title>
+        <ion-title class="float-left text-[34px] font-black">Wallet</ion-title>
         <ion-button
           class="transform-top-left text-white pointer-events-none absolute left-0 opacity-0 font-semibold m-0 float-left"
           fill="clear"
@@ -25,7 +25,7 @@
       <div class="card-groups relative mt-[10px]">
         <div
           class="card-group w-full relative block trans-slow"
-          v-for="(cardGroup, index) in cardGroups"
+          v-for="(cardGroup, index) in nftCardGroups"
           :key="index"
           :style="{
             top: generateCardOffset(cardGroup, index),
@@ -39,17 +39,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import {
-  IonContent,
-  IonButton,
-  IonPage,
-  IonTitle,
-  IonIcon,
-  createAnimation,
-} from '@ionic/vue'
+import { onMounted, ref } from 'vue'
+import { IonContent, IonButton, IonPage, IonTitle, IonIcon } from '@ionic/vue'
 
 import CardGroup from '../components/CardGroup.vue'
+import { URLQuery } from '../interfaces'
+import { getNFTCards } from '../api/apiCaller'
 
 import { cardGroups } from '../constants'
 
@@ -60,12 +55,21 @@ interface ICardGroup {
   type: string
 }
 
+const nftCardGroups = ref<Array<any>>([])
+
+const query = ref<URLQuery | null>({ format: 'json', limit: 5, offset: 0 })
+
+onMounted(async () => {
+  const { data } = await getNFTCards(query)
+  nftCardGroups.value = data.bundles
+})
+
 function generateCardOffset(cardGroup: ICardGroup, index: number) {
   const isDebitOrCash =
     cardGroup.type === 'apple-cash' || cardGroup.type === 'debit'
   const offset = isDebitOrCash ? 0 : 230
 
-  return `${(space.value + gap.value) * index + offset}px`
+  return `${(space.value + gap.value) * index}px`
 }
 
 const demo = ref()

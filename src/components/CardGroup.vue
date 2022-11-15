@@ -1,7 +1,7 @@
 <template>
   <div
     class="card-wrapper absolute w-full"
-    v-for="(card, index) in group?.cards"
+    v-for="(card, index) in group"
     :key="index"
     :style="{
       top: `${gap * index}px`,
@@ -23,12 +23,7 @@ import {
 import Card from '../components/Card.vue'
 
 interface IProps {
-  group: {
-    type: string
-    cards: {
-      type: string
-    }[]
-  }
+  group: any
   gap: number
 }
 
@@ -36,6 +31,7 @@ const router = useIonRouter()
 
 const props = defineProps<IProps>()
 const { group, gap } = props
+console.log('group', group)
 
 const isTransactionCard = () =>
   props.group.type === 'debit' || props.group.type === 'apple-cash'

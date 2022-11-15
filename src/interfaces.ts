@@ -15,3 +15,9 @@ export interface Transaction {
   date: string
   price: string
 }
+
+export interface URLQuery {
+  format: string
+  limit: number
+  offset: number
+}

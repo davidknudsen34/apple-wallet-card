@@ -92,6 +92,7 @@ ion-header ion-toolbar {
 
 ion-header .done {
   --color: white;
-  font-weight: 600;
+  font-weight: 800;
+  font-size: 17px;
 }
 </style>

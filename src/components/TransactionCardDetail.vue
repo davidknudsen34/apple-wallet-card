@@ -2,10 +2,10 @@
   <ion-content id="transaction-card-detail" class="ion-padding relative">
     <div class="card-wrapper">
       <card
-        :card="getCard()"
+        :card="group"
+        :id="`transaction-${group.slug}`"
         :mask="false"
         @click="goBack"
-        :id="getCard().type"
       ></card>
     </div>
 
@@ -61,60 +61,28 @@ import {
 } from '@ionic/vue'
 
 import Card from './Card.vue'
-import { cardGroups, transactions } from '../constants'
-import { useRoute } from 'vue-router'
-import {
-  createGenericLeaveAnimation,
-  createTransactionLeaveAnimation,
-} from '../animations/leave'
+import { transactions } from '../constants'
+import { createTransactionLeaveAnimation } from '../animations/leave'
+import { ICard } from '../interfaces'
 
 interface IProps {
-  group: {
-    type: string
-    cards: {
-      type: string
-    }[]
-  }
-}
-
-interface ICardGroup {
-  cards: {
-    type: string
-  }[]
-  type: string
+  group: ICard
 }
 
 const props = defineProps<IProps>()
+const { group } = props
 const router = useIonRouter()
-const route = useRoute()
-
-const getCard = () => {
-  return props.group.cards[0]
-}
-
-const selectedCardGroup: ICardGroup[] = cardGroups.filter(
-  (cardGroup, index) => cardGroup.type === route.params.id
-)
-const isTransactionCard = () =>
-  selectedCardGroup[0].type === 'debit' ||
-  selectedCardGroup[0].type === 'apple-cash'
-
-const createLeaveAnimation = isTransactionCard()
-  ? createTransactionLeaveAnimation
-  : createGenericLeaveAnimation
 
 const presentingEl = document.querySelector('#app-home') as HTMLElement
 
 const goBack = () => {
   router.push('/home', (baseEl, opts) =>
-    createLeaveAnimation(
+    createTransactionLeaveAnimation(
       baseEl,
       opts,
       presentingEl,
-      baseEl.querySelector(
-        `#${selectedCardGroup[0].type} .card`
-      ) as HTMLElement,
-      baseEl.querySelector(`#card-${selectedCardGroup[0].type}`) as HTMLElement
+      baseEl.querySelector(`#transaction-${group.slug} .card`) as HTMLElement,
+      baseEl.querySelector(`#card-${group.slug}`) as HTMLElement
     )
   )
 }

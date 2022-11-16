@@ -25,13 +25,13 @@
       <div class="card-groups relative mt-[10px]">
         <div
           class="card-group w-full relative block trans-slow"
-          v-for="(cardGroup, index) in nftCardGroups"
+          v-for="(card, index) in nftCardGroups"
           :key="index"
           :style="{
-            top: generateCardOffset(cardGroup, index),
+            top: generateCardOffset(card, index),
           }"
         >
-          <card-group :gap="gap" :group="cardGroup" />
+          <card-group :card="card" />
         </div>
       </div>
     </ion-content>
@@ -39,36 +39,22 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { IonContent, IonButton, IonPage, IonTitle, IonIcon } from '@ionic/vue'
 
 import CardGroup from '../components/CardGroup.vue'
-import { URLQuery } from '../interfaces'
-import { getNFTCards } from '../api/apiCaller'
+import store from '../store'
+import { ICard, URLQuery } from '../interfaces'
 
-import { cardGroups } from '../constants'
-
-interface ICardGroup {
-  cards: {
-    type: string
-  }[]
-  type: string
-}
-
-const nftCardGroups = ref<Array<any>>([])
+const nftCardGroups = ref<Array<ICard>>([])
 
 const query = ref<URLQuery | null>({ format: 'json', limit: 5, offset: 0 })
 
 onMounted(async () => {
-  const { data } = await getNFTCards(query)
-  nftCardGroups.value = data.bundles
+  await store.dispatch('mutateNftCardListAsync', query.value as URLQuery)
 })
 
-function generateCardOffset(cardGroup: ICardGroup, index: number) {
-  const isDebitOrCash =
-    cardGroup.type === 'apple-cash' || cardGroup.type === 'debit'
-  const offset = isDebitOrCash ? 0 : 230
-
+function generateCardOffset(cardGroup: ICard, index: number) {
   return `${(space.value + gap.value) * index}px`
 }
 
@@ -79,6 +65,14 @@ const isWheeling = ref(false)
 const prevY = ref<null | number>(0)
 const timer = ref<NodeJS.Timer | null>(null)
 const step = ref(0.5)
+
+const nftCardList = computed(() => store.state.nftCardList)
+
+watch(nftCardList, () => {
+  if (nftCardList) {
+    nftCardGroups.value = nftCardList.value
+  }
+})
 
 type wheelHandlerProps = {
   movement: [x: number, y: number]

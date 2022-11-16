@@ -1,50 +1,31 @@
 <template>
-  <div
-    class="card-wrapper absolute w-full"
-    v-for="(card, index) in group"
-    :key="index"
-    :style="{
-      top: `${gap * index}px`,
-    }"
-    @click="showDetail"
-  >
-    <card :card="card" :id="`card-${card.type}`" :mask="true"></card>
+  <div class="card-wrapper absolute w-full" @click="showDetail">
+    <card :card="card" :id="`card-${card.slug}`" :mask="true"></card>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useIonRouter } from '@ionic/vue'
 
-import {
-  createGenericEnterAnimation,
-  createTransactionEnterAnimation,
-} from '../animations/enter'
+import { createTransactionEnterAnimation } from '../animations/enter'
 
 import Card from '../components/Card.vue'
+import { ICard } from '../interfaces'
 
 interface IProps {
-  group: any
-  gap: number
+  card: ICard
 }
 
 const router = useIonRouter()
 
 const props = defineProps<IProps>()
-const { group, gap } = props
-console.log('group', group)
-
-const isTransactionCard = () =>
-  props.group.type === 'debit' || props.group.type === 'apple-cash'
-
-const createEnterAnimation = isTransactionCard()
-  ? createTransactionEnterAnimation
-  : createGenericEnterAnimation
+const { card } = props
 
 const presentingEl = document.querySelector('#app-home') as HTMLElement
 
 const showDetail = (e: MouseEvent) => {
-  router.push(`/cards/${props.group.type}`, (baseEl, opts) =>
-    createEnterAnimation(baseEl, opts, presentingEl, e.target)
+  router.push(`/card/${card.slug}`, (baseEl, opts) =>
+    createTransactionEnterAnimation(baseEl, opts, presentingEl, e.target)
   )
 }
 </script>

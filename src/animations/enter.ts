@@ -95,6 +95,10 @@ export const createTransactionEnterAnimation = (
   elementRef?: EventTarget | null
 ) => {
   const cardElement = elementRef as HTMLElement
+  console.log(
+    'cardElement',
+    cardElement?.parentElement?.parentElement?.parentElement
+  )
   const rootAnimation = createRootAnimation(
     baseEl,
     presentingEl,
@@ -110,7 +114,7 @@ export const createTransactionEnterAnimation = (
       { offset: 1, opacity: 1 },
     ])
 
-  const parentElement = cardElement?.parentElement?.parentElement
+  const parentElement = cardElement?.parentElement?.parentElement?.parentElement
     ?.parentElement as HTMLElement
 
   const cardBBox = parentElement.getBoundingClientRect()

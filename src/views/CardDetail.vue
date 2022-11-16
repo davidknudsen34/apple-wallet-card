@@ -16,15 +16,12 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <transaction-card-detail
-      v-if="isTransactionCard()"
-      :group="selectedCardGroup[0]"
-    />
-    <generic-card-detail v-else :group="selectedCardGroup[0]" />
+    <transaction-card-detail :group="selectedCardGroup[0]" />
   </ion-page>
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import {
   IonButtons,
   IonButton,
@@ -34,51 +31,35 @@ import {
   IonIcon,
   useIonRouter,
 } from '@ionic/vue'
-import { Starport } from 'vue-starport'
 import { useRoute } from 'vue-router'
-import {
-  createGenericLeaveAnimation,
-  createTransactionLeaveAnimation,
-} from '../animations/leave'
+import { createTransactionLeaveAnimation } from '../animations/leave'
 
-import GenericCardDetail from '../components/GenericCardDetail.vue'
+import store from '../store'
 import TransactionCardDetail from '../components/TransactionCardDetail.vue'
-import { cardGroups } from '../constants'
-
-interface ICardGroup {
-  cards: {
-    type: string
-  }[]
-  type: string
-}
+import { ICard } from '../interfaces'
+import { watch } from 'fs'
 
 const router = useIonRouter()
 const route = useRoute()
 
-const selectedCardGroup: ICardGroup[] = cardGroups.filter(
-  (cardGroup, index) => cardGroup.type === route.params.id
+const nftCardList = computed(() => store.state.nftCardList)
+
+const selectedCardGroup: ICard[] = nftCardList.value.filter(
+  (cardGroup: ICard, index: number) => cardGroup.slug === route.params.slug
 )
-
-const isTransactionCard = () =>
-  selectedCardGroup[0].type === 'debit' ||
-  selectedCardGroup[0].type === 'apple-cash'
-
-const createLeaveAnimation = isTransactionCard()
-  ? createTransactionLeaveAnimation
-  : createGenericLeaveAnimation
 
 const presentingEl = document.querySelector('#app-home') as HTMLElement
 
 function goBack() {
   router.push('/home', (baseEl, opts) =>
-    createLeaveAnimation(
+    createTransactionLeaveAnimation(
       baseEl,
       opts,
       presentingEl,
       baseEl.querySelector(
-        `#${selectedCardGroup[0].type} .card`
+        `#transaction-${selectedCardGroup[0].slug} .card`
       ) as HTMLElement,
-      baseEl.querySelector(`#card-${selectedCardGroup[0].type}`) as HTMLElement
+      baseEl.querySelector(`#card-${selectedCardGroup[0].slug}`) as HTMLElement
     )
   )
 }

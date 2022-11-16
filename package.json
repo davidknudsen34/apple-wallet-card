@@ -18,7 +18,8 @@
     "swiper": "^8.4.4",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12",
-    "vue-starport": "^0.3.0"
+    "vue-starport": "^0.3.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.19",

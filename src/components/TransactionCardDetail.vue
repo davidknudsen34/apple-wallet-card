@@ -10,41 +10,14 @@
     </div>
 
     <div class="transactions-list absolute top-[270px]">
-      <ion-list-header>
-        <ion-label>Latest Transactions</ion-label>
-      </ion-list-header>
-      <ion-list>
-        <ion-item
-          class="bg-transaction"
-          v-for="(transaction, index) in transactions"
-          :key="index"
-        >
-          <div class="float-left w-full pb-[10px] pl-[10px]">
-            <div class="font-semibold text-base leading-6">
-              {{ transaction.vendor }}
-            </div>
-            <div
-              class="text-[#ffffffb3] text-[15px] leading-5"
-              v-if="transaction.location"
-            >
-              {{ transaction.location }}
-            </div>
-            <div class="text-[#ffffffb3] text-[15px] leading-5">
-              {{ transaction.date }}
-            </div>
-          </div>
-
-          <div class="float-right items-center flex mt-[-36px]">
-            <div class="text-base">{{ transaction.price }}</div>
-            <ion-icon
-              name="chevron-forward"
-              class="text-[#ffffff4d] ml-2 text-xl"
-            ></ion-icon>
-          </div>
-
-          <div class="float-clear"></div>
-        </ion-item>
-      </ion-list>
+      <span
+        class="font-poppins font-light text-sm leading-5 tracking-[0.5px] opacity-[.4] mix-blend-normal"
+      >
+        A limited NFT collection where the token itself doubles as your
+        membership as your membership to a swamp club for apes. The club is
+        open! Ape in with us.
+      </span>
+      <br />
     </div>
   </ion-content>
 </template>

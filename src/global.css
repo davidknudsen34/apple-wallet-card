@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,300,700');
+
+html,
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+#app {
+  font-family: 'Poppins', sans-serif;
+}
+
 .float-left {
   float: left;
 }
@@ -35,4 +46,8 @@
 
 *:host {
   --background: transparent !important;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
 }

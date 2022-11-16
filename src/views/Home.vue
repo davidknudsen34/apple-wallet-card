@@ -59,7 +59,7 @@ function generateCardOffset(cardGroup: ICard, index: number) {
 }
 
 const demo = ref()
-const space = ref(35)
+const space = ref(45)
 const gap = ref(10)
 const isWheeling = ref(false)
 const prevY = ref<null | number>(0)

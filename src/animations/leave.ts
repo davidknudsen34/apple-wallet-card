@@ -93,91 +93,93 @@ export const createTransactionLeaveAnimation = (
   return rootAnimation.addAnimation([transactionsList, mainCard])
 }
 
-export const createGenericLeaveAnimation = (
-  baseEl: HTMLElement,
-  opts: object,
-  presentingEl: HTMLElement,
-  elementRef: HTMLElement,
-  translateCardElement?: HTMLElement
-) => {
-  const cardElement = elementRef as HTMLElement
-  const rootAnimation = createRootAnimation(
-    baseEl,
-    presentingEl,
-    opts,
-    cardElement,
-    1800
-  ).afterAddWrite(() =>
-    document
-      .querySelectorAll('.card-mask')
-      .forEach((c) => c.classList.add('card-mask'))
-  )
+// This is for generic card
 
-  const parentElement = cardElement?.parentElement?.parentElement
-    ?.parentElement as HTMLElement
+// export const createGenericLeaveAnimation = (
+//   baseEl: HTMLElement,
+//   opts: object,
+//   presentingEl: HTMLElement,
+//   elementRef: HTMLElement,
+//   translateCardElement?: HTMLElement
+// ) => {
+//   const cardElement = elementRef as HTMLElement
+//   const rootAnimation = createRootAnimation(
+//     baseEl,
+//     presentingEl,
+//     opts,
+//     cardElement,
+//     1800
+//   ).afterAddWrite(() =>
+//     document
+//       .querySelectorAll('.card-mask')
+//       .forEach((c) => c.classList.add('card-mask'))
+//   )
 
-  const translateParentElement = translateCardElement?.parentElement
-    ?.parentElement as HTMLElement
+//   const parentElement = cardElement?.parentElement?.parentElement
+//     ?.parentElement as HTMLElement
 
-  const cardBBox = translateParentElement.getBoundingClientRect()
+//   const translateParentElement = translateCardElement?.parentElement
+//     ?.parentElement as HTMLElement
 
-  const allCards = Array.from(parentElement.querySelectorAll('.card'))
-  const primaryCard = allCards[allCards.length - 1]
-  const secondaryCards = allCards.slice(0, allCards.length)
+//   const cardBBox = translateParentElement.getBoundingClientRect()
 
-  const cardOffset = 50
-  const totalCardOffset = cardOffset * secondaryCards.length
+//   const allCards = Array.from(parentElement.querySelectorAll('.card'))
+//   const primaryCard = allCards[allCards.length - 1]
+//   const secondaryCards = allCards.slice(0, allCards.length)
 
-  const mainCard = createAnimation()
-    .addElement(cardElement)
-    .easing('cubic-bezier(0.32, 0.72, 0, 1)')
-    .keyframes([
-      {
-        offset: 0,
-        transform: `translate(${cardBBox.x}px, 0)`,
-        opacity: 1,
-      },
-      {
-        offset: 0.7,
-        transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
-        opacity: 1,
-      },
-      {
-        offset: 1,
-        transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
-        opacity: 1,
-      },
-    ])
-    .onFinish(() => rootAnimation.play())
+//   const cardOffset = 50
+//   const totalCardOffset = cardOffset * secondaryCards.length
 
-  secondaryCards.forEach((card, i) => {
-    const cardAnimation = createAnimation()
-      .addElement(card)
-      .easing('cubic-bezier(0.32, 0.72, 0, 1)')
-      .keyframes([
-        {
-          offset: 0,
-          transform: `translate(0, 0)`,
-          opacity: 1,
-        },
-        {
-          offset: 0.7,
-          transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
-            cardBBox.top - 70 + 10 * (i + 1)
-          }px)`,
-          opacity: 1,
-        },
-        {
-          offset: 1,
-          transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
-            cardBBox.top - 70 + 10 * (i + 1)
-          }px)`,
-          opacity: 1,
-        },
-      ])
+//   const mainCard = createAnimation()
+//     .addElement(cardElement)
+//     .easing('cubic-bezier(0.32, 0.72, 0, 1)')
+//     .keyframes([
+//       {
+//         offset: 0,
+//         transform: `translate(${cardBBox.x}px, 0)`,
+//         opacity: 1,
+//       },
+//       {
+//         offset: 0.7,
+//         transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
+//         opacity: 1,
+//       },
+//       {
+//         offset: 1,
+//         transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
+//         opacity: 1,
+//       },
+//     ])
+//     .onFinish(() => rootAnimation.play())
 
-    rootAnimation.addAnimation(cardAnimation)
-  })
+//   secondaryCards.forEach((card, i) => {
+//     const cardAnimation = createAnimation()
+//       .addElement(card)
+//       .easing('cubic-bezier(0.32, 0.72, 0, 1)')
+//       .keyframes([
+//         {
+//           offset: 0,
+//           transform: `translate(0, 0)`,
+//           opacity: 1,
+//         },
+//         {
+//           offset: 0.7,
+//           transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
+//             cardBBox.top - 70 + 10 * (i + 1)
+//           }px)`,
+//           opacity: 1,
+//         },
+//         {
+//           offset: 1,
+//           transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
+//             cardBBox.top - 70 + 10 * (i + 1)
+//           }px)`,
+//           opacity: 1,
+//         },
+//       ])
 
-  return rootAnimation.addAnimation([mainCard])
-}
+//     rootAnimation.addAnimation(cardAnimation)
+//   })
+
+//   return rootAnimation.addAnimation([mainCard])
+// }

@@ -2,7 +2,7 @@
   <div class="card-container" :class="[mask ? 'card-mask' : '']">
     <div class="card transition-card relative">
       <ion-img
-        class="h-[240px] object-cover"
+        class="h-[240px] object-cover bg-black"
         :src="
           card.asset_contract === null
             ? image_url
@@ -50,7 +50,7 @@ const image_url = '/assets/img/pic.png'
 
 .card-container .card ion-img {
   border-radius: 2px;
-  border-width: 1px;
+  border-width: 2px;
   border-color: #1a1a1a;
 }
 

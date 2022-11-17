@@ -10,8 +10,7 @@ export default createStore({
   },
   mutations: {
     mutateNftCardList(state, payload: ICard[]) {
-      state.nftCardList.push(...payload)
-      console.log('state.nftCardList', state.nftCardList)
+      state.nftCardList = [...state.nftCardList, ...payload]
     },
   },
   actions: {

@@ -22,66 +22,63 @@
         <div class="float-clear"></div>
       </div>
 
-      <div class="card-groups relative mt-[10px]">
+      <div class="card-groups mt-[10px]">
         <div
           class="card-group w-full relative block trans-slow"
           v-for="(card, index) in nftCardGroups"
           :key="index"
           :style="{
-            top: generateCardOffset(card, index),
+            top: `${generateCardOffset(index)}px`,
           }"
         >
           <card-group :card="card" />
         </div>
-        <infinite-loading @infinite="loadmore" />
       </div>
+      <ion-infinite-scroll
+        :style="{
+          marginTop: `${
+            generateCardOffset(nftCardGroups.length) + 250
+          }px !important`,
+        }"
+        @ionInfinite="ionInfinite"
+      >
+        <ion-infinite-scroll-content
+          loading-text="Please wait..."
+          loading-spinner="circles"
+        ></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed, watch } from 'vue'
-import { IonContent, IonButton, IonPage, IonTitle, IonIcon } from '@ionic/vue'
-import InfiniteLoading from 'v3-infinite-loading'
+import { onMounted, ref, computed, watch, reactive } from 'vue'
+import {
+  IonContent,
+  IonButton,
+  IonPage,
+  IonTitle,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonInfiniteCustomEvent,
+  IonSpinner,
+} from '@ionic/vue'
 
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
 import { ICard } from '../interfaces'
 
-import 'v3-infinite-loading/lib/style.css'
-
-const nftCardGroups = ref<Array<ICard>>([])
+const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 let offset = 0
-
-// onMounted(async () => {
-//   await store.dispatch('mutateNftCardListAsync', offset)
-// })
-
 const nftCardList = computed(() => store.state.nftCardList)
 
-const loadmore = async ($state: any) => {
-  console.log('loading...')
+onMounted(async () => {
+  await store.dispatch('mutateNftCardListAsync', offset)
+})
 
-  try {
-    await store.dispatch('mutateNftCardListAsync', offset)
-
-    console.log('newNftCardGroups', nftCardList.value, 'offset', offset)
-
-    if (nftCardList.value.length < 10) {
-      $state.complete()
-      offset = 0
-    } else {
-      nftCardGroups.value.push(...nftCardList.value)
-      $state.loaded()
-      offset++
-    }
-  } catch (error) {
-    $state.error()
-  }
-}
-
-function generateCardOffset(cardGroup: ICard, index: number) {
-  return `${(space.value + gap.value) * index}px`
+function generateCardOffset(index: number) {
+  return (space.value + gap.value) * index
 }
 
 watch(nftCardList, () => {
@@ -89,6 +86,21 @@ watch(nftCardList, () => {
     nftCardGroups.value = nftCardList.value
   }
 })
+
+const loadmore = async (offset: number) => {
+  try {
+    await store.dispatch('mutateNftCardListAsync', offset)
+    nftCardGroups.value = nftCardList.value
+  } catch (error) {
+    console.error('error', error)
+  }
+}
+
+const ionInfinite = (ev: IonInfiniteCustomEvent) => {
+  offset++
+  loadmore(offset)
+  setTimeout(() => ev.target.complete(), 1000)
+}
 
 const demo = ref()
 const space = ref(45)
@@ -104,7 +116,6 @@ type wheelHandlerProps = {
 }
 
 const wheelHandler = ({ movement: [x, y], wheeling }: wheelHandlerProps) => {
-  console.log('y', y)
   isWheeling.value = wheeling
 
   if (isWheeling.value) {
@@ -113,7 +124,7 @@ const wheelHandler = ({ movement: [x, y], wheeling }: wheelHandlerProps) => {
       step.value = 0.2
     }
     if (prevY.value !== null) {
-      const delta = (y - prevY.value) / 15.0
+      const delta = (y - prevY.value) / 50.0
       gap.value = Math.max(7, Math.min(50, gap.value + delta))
     }
     prevY.value = y

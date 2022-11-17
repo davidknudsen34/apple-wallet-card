@@ -16,12 +16,6 @@ export interface Transaction {
   price: string
 }
 
-export interface URLQuery {
-  format: string
-  limit: number
-  offset: number
-}
-
 export interface AssetContract {
   address: string
   asset_contract_type: string

@@ -2,20 +2,21 @@ import { createStore } from 'vuex'
 
 import { getNFTCards } from '../api/apiCaller'
 
-import { ICard, URLQuery } from '../interfaces'
+import { ICard } from '../interfaces'
 
 export default createStore({
   state: {
-    nftCardList: [],
+    nftCardList: [] as ICard[],
   },
   mutations: {
-    mutateNftCardList(state, payload) {
-      state.nftCardList = payload
+    mutateNftCardList(state, payload: ICard[]) {
+      state.nftCardList.push(...payload)
+      console.log('state.nftCardList', state.nftCardList)
     },
   },
   actions: {
-    async mutateNftCardListAsync({ commit }, payload: URLQuery) {
-      const { data } = (await getNFTCards(payload)) as any
+    async mutateNftCardListAsync({ commit }, offset: number) {
+      const { data } = await getNFTCards(offset)
       commit('mutateNftCardList', data.bundles)
     },
   },

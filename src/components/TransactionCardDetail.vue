@@ -34,7 +34,6 @@ import {
 } from '@ionic/vue'
 
 import Card from './Card.vue'
-import { transactions } from '../constants'
 import { createTransactionLeaveAnimation } from '../animations/leave'
 import { ICard } from '../interfaces'
 

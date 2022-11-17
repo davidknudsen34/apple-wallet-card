@@ -33,6 +33,7 @@
         >
           <card-group :card="card" />
         </div>
+        <infinite-loading @infinite="loadmore" />
       </div>
     </ion-content>
   </ion-page>
@@ -41,22 +42,53 @@
 <script lang="ts" setup>
 import { onMounted, ref, computed, watch } from 'vue'
 import { IonContent, IonButton, IonPage, IonTitle, IonIcon } from '@ionic/vue'
+import InfiniteLoading from 'v3-infinite-loading'
 
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
-import { ICard, URLQuery } from '../interfaces'
+import { ICard } from '../interfaces'
+
+import 'v3-infinite-loading/lib/style.css'
 
 const nftCardGroups = ref<Array<ICard>>([])
+let offset = 0
 
-const query = ref<URLQuery | null>({ format: 'json', limit: 5, offset: 0 })
+// onMounted(async () => {
+//   await store.dispatch('mutateNftCardListAsync', offset)
+// })
 
-onMounted(async () => {
-  await store.dispatch('mutateNftCardListAsync', query.value as URLQuery)
-})
+const nftCardList = computed(() => store.state.nftCardList)
+
+const loadmore = async ($state: any) => {
+  console.log('loading...')
+
+  try {
+    await store.dispatch('mutateNftCardListAsync', offset)
+
+    console.log('newNftCardGroups', nftCardList.value, 'offset', offset)
+
+    if (nftCardList.value.length < 10) {
+      $state.complete()
+      offset = 0
+    } else {
+      nftCardGroups.value.push(...nftCardList.value)
+      $state.loaded()
+      offset++
+    }
+  } catch (error) {
+    $state.error()
+  }
+}
 
 function generateCardOffset(cardGroup: ICard, index: number) {
   return `${(space.value + gap.value) * index}px`
 }
+
+watch(nftCardList, () => {
+  if (nftCardList) {
+    nftCardGroups.value = nftCardList.value
+  }
+})
 
 const demo = ref()
 const space = ref(45)
@@ -66,20 +98,13 @@ const prevY = ref<null | number>(0)
 const timer = ref<NodeJS.Timer | null>(null)
 const step = ref(0.5)
 
-const nftCardList = computed(() => store.state.nftCardList)
-
-watch(nftCardList, () => {
-  if (nftCardList) {
-    nftCardGroups.value = nftCardList.value
-  }
-})
-
 type wheelHandlerProps = {
   movement: [x: number, y: number]
   wheeling: any
 }
 
 const wheelHandler = ({ movement: [x, y], wheeling }: wheelHandlerProps) => {
+  console.log('y', y)
   isWheeling.value = wheeling
 
   if (isWheeling.value) {
@@ -143,6 +168,10 @@ ion-title {
 
 .card-groups {
   z-index: 1;
+}
+
+.card-groups [data-v-9d82030b] {
+  text-align: center;
 }
 
 .card-group {

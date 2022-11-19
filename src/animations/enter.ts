@@ -102,7 +102,7 @@ export const createTransactionEnterAnimation = (
     presentingEl,
     opts,
     cardElement,
-    1000
+    1400
   )
 
   const transactionsList = createAnimation()

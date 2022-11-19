@@ -1,6 +1,13 @@
 <template>
   <ion-page id="app-home">
-    <ion-content class="ion-padding" ref="demo" v-wheel="wheelHandler">
+    <ion-content
+      class="ion-padding"
+      :scroll-events="true"
+      @ion-scroll="ionScroll"
+      @ion-scroll-end="ionScrollEnd"
+      :force-overscroll="false"
+      :scroll-y="true"
+    >
       <div class="header">
         <ion-title class="float-left text-[34px] font-black">Wallet</ion-title>
         <ion-button
@@ -22,7 +29,7 @@
         <div class="float-clear"></div>
       </div>
 
-      <div class="card-groups mt-[10px]">
+      <div v-if="isLoading" class="card-groups mt-[10px]">
         <div
           class="card-group w-full relative block trans-slow"
           v-for="(card, index) in nftCardGroups"
@@ -34,6 +41,10 @@
           <card-group :card="card" />
         </div>
       </div>
+      <div v-else class="text-center">
+        <ion-spinner class="mt-[50%]"></ion-spinner><br />
+        <ion-label class="">Please wait...</ion-label>
+      </div>
       <ion-infinite-scroll
         :style="{
           marginTop: `${
@@ -43,6 +54,7 @@
         @ionInfinite="ionInfinite"
       >
         <ion-infinite-scroll-content
+          v-if="isLoading"
           loading-text="Please wait..."
           loading-spinner="circles"
         ></ion-infinite-scroll-content>
@@ -52,11 +64,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed, watch, reactive } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import {
   IonContent,
   IonButton,
   IonPage,
+  IonLabel,
   IonTitle,
   IonIcon,
   IonInfiniteScroll,
@@ -64,17 +77,70 @@ import {
   IonInfiniteCustomEvent,
   IonSpinner,
 } from '@ionic/vue'
+import { IonContentCustomEvent, ScrollDetail } from '@ionic/core'
 
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
 import { ICard } from '../interfaces'
+import { time } from 'console'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
+const isLoading = ref(false)
 let offset = 0
+const space = ref(45)
+const gap = ref(10)
+const isScrolling = ref(false)
+const prevY = ref<null | number>(0)
+const timer = ref<NodeJS.Timer | null>(null)
+const step = ref(0.7)
 const nftCardList = computed(() => store.state.nftCardList)
+
+const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
+  let y = e.detail.scrollTop
+  prevY.value = e.detail.startY
+
+  if (e.detail.scrollTop < 100) {
+    if (timer.value) {
+      clearInterval(timer.value)
+      step.value = 0.3
+    }
+    if (prevY.value !== null) {
+      const delta = (y - prevY.value) / 60.0
+      gap.value = Math.max(10, Math.min(30, gap.value - delta))
+    }
+    prevY.value = y
+  } else {
+    if (timer.value) {
+      clearInterval(timer.value)
+      step.value = 0.3
+    }
+    if (prevY.value !== null) {
+      const delta = (y - prevY.value) / 60.0
+      gap.value = Math.max(10, Math.min(20, gap.value - delta))
+    }
+  }
+}
+
+const ionScrollEnd = () => {
+  timer.value = setInterval(() => {
+    if (gap.value === 10) {
+      clearInterval(timer.value as NodeJS.Timer)
+      step.value = 0.3
+    } else {
+      if (gap.value > 10) {
+        gap.value = Math.max(gap.value - step.value, 10)
+      } else if (gap.value < 10) {
+        gap.value = Math.min(gap.value + step.value, 10)
+      }
+      step.value += 0.3
+    }
+  }, 30)
+  prevY.value = null
+}
 
 onMounted(async () => {
   await store.dispatch('mutateNftCardListAsync', offset)
+  isLoading.value = true
 })
 
 function generateCardOffset(index: number) {
@@ -100,50 +166,6 @@ const ionInfinite = (ev: IonInfiniteCustomEvent) => {
   offset++
   loadmore(offset)
   setTimeout(() => ev.target.complete(), 1000)
-}
-
-const demo = ref()
-const space = ref(45)
-const gap = ref(10)
-const isWheeling = ref(false)
-const prevY = ref<null | number>(0)
-const timer = ref<NodeJS.Timer | null>(null)
-const step = ref(0.5)
-
-type wheelHandlerProps = {
-  movement: [x: number, y: number]
-  wheeling: any
-}
-
-const wheelHandler = ({ movement: [x, y], wheeling }: wheelHandlerProps) => {
-  isWheeling.value = wheeling
-
-  if (isWheeling.value) {
-    if (timer.value) {
-      clearInterval(timer.value)
-      step.value = 0.2
-    }
-    if (prevY.value !== null) {
-      const delta = (y - prevY.value) / 50.0
-      gap.value = Math.max(7, Math.min(50, gap.value + delta))
-    }
-    prevY.value = y
-  } else {
-    timer.value = setInterval(() => {
-      if (gap.value === 10) {
-        clearInterval(timer.value as NodeJS.Timer)
-        step.value = 0.2
-      } else {
-        if (gap.value > 10) {
-          gap.value = Math.max(gap.value - step.value, 10)
-        } else if (gap.value < 10) {
-          gap.value = Math.min(gap.value + step.value, 10)
-        }
-        step.value += 0.2
-      }
-    }, 10)
-    prevY.value = null
-  }
 }
 </script>
 

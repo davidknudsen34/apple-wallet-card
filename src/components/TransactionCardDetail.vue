@@ -101,12 +101,12 @@ ion-item .transaction-detail .price {
 
 .transactions-list {
   width: calc(100% - 32px);
-  animation: transactionList 1.5s;
+  animation: transactionList 2s;
 }
 
 @keyframes transactionList {
   from {
-    top: 3000px;
+    top: 5000px;
   }
   to {
     top: 270px;

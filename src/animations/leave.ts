@@ -51,7 +51,7 @@ export const createTransactionLeaveAnimation = (
     presentingEl,
     opts,
     cardElement,
-    2000
+    2400
   )
 
   const transactionsList = createAnimation()

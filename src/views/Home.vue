@@ -5,8 +5,7 @@
       :scroll-events="true"
       @ion-scroll="ionScroll"
       @ion-scroll-end="ionScrollEnd"
-      :force-overscroll="false"
-      :scroll-y="true"
+      :force-overscroll="true"
     >
       <div class="header">
         <ion-title class="float-left text-[34px] font-black">Wallet</ion-title>
@@ -82,7 +81,6 @@ import { IonContentCustomEvent, ScrollDetail } from '@ionic/core'
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
 import { ICard } from '../interfaces'
-import { time } from 'console'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 const isLoading = ref(false)
@@ -105,8 +103,8 @@ const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
       step.value = 0.3
     }
     if (prevY.value !== null) {
-      const delta = (y - prevY.value) / 60.0
-      gap.value = Math.max(10, Math.min(30, gap.value - delta))
+      const delta = (y - prevY.value) / 40.0
+      gap.value = Math.max(10, Math.min(40, gap.value - delta))
     }
     prevY.value = y
   } else {
@@ -116,7 +114,7 @@ const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
     }
     if (prevY.value !== null) {
       const delta = (y - prevY.value) / 60.0
-      gap.value = Math.max(10, Math.min(20, gap.value - delta))
+      gap.value = Math.max(10, Math.min(25, gap.value - delta))
     }
   }
 }

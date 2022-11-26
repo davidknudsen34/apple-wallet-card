@@ -3,7 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons>
-          <ion-button class="done text-white opacity-[1]" @click="goBack"
+          <ion-button
+            class="done font-poppins text-white opacity-[1]"
+            @click="goBack"
             >Done</ion-button
           >
         </ion-buttons>
@@ -37,7 +39,6 @@ import { createTransactionLeaveAnimation } from '../animations/leave'
 import store from '../store'
 import TransactionCardDetail from '../components/TransactionCardDetail.vue'
 import { ICard } from '../interfaces'
-import { watch } from 'fs'
 
 const router = useIonRouter()
 const route = useRoute()

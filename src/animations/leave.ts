@@ -18,7 +18,7 @@ const createRootAnimation = (
     .duration(duration || 600)
     .addElement(baseEl.querySelector('#card-detail') as HTMLElement)
     .keyframes([
-      { offset: 0, opacity: 1 },
+      { offset: 0, opacity: 1, zIndex: 26 },
       { offset: 0.7, opacity: 1 },
       { offset: 1, opacity: 1 },
     ])
@@ -27,8 +27,8 @@ const createRootAnimation = (
     .duration(duration || 600)
     .addElement(baseEl.querySelector('#app-home') as HTMLElement)
     .keyframes([
-      { offset: 0, opacity: 0 },
-      { offset: 0.7, opacity: 0.08 },
+      { offset: 0, opacity: 1, zIndex: 24 },
+      { offset: 0.7, opacity: 1 },
       { offset: 1, opacity: 1 },
     ])
     .beforeRemoveClass('ion-page-hidden')
@@ -68,7 +68,7 @@ export const createTransactionLeaveAnimation = (
 
   const mainCard = createAnimation()
     .addElement(parentElement)
-    .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
+    // .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
     .keyframes([
       {
         offset: 0,
@@ -81,105 +81,23 @@ export const createTransactionLeaveAnimation = (
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,
+        opacity: 1,
+      },
+      {
+        offset: 0.7,
+        transform: `translate(0, calc(${
+          cardBBox.top - 60
+        }px + var(--ion-safe-area-top)))`,
+        opacity: 0,
       },
       {
         offset: 1,
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,
+        opacity: 0,
       },
     ])
 
   return rootAnimation.addAnimation([transactionsList, mainCard])
 }
-
-// This is for generic card
-
-// export const createGenericLeaveAnimation = (
-//   baseEl: HTMLElement,
-//   opts: object,
-//   presentingEl: HTMLElement,
-//   elementRef: HTMLElement,
-//   translateCardElement?: HTMLElement
-// ) => {
-//   const cardElement = elementRef as HTMLElement
-//   const rootAnimation = createRootAnimation(
-//     baseEl,
-//     presentingEl,
-//     opts,
-//     cardElement,
-//     1800
-//   ).afterAddWrite(() =>
-//     document
-//       .querySelectorAll('.card-mask')
-//       .forEach((c) => c.classList.add('card-mask'))
-//   )
-
-//   const parentElement = cardElement?.parentElement?.parentElement
-//     ?.parentElement as HTMLElement
-
-//   const translateParentElement = translateCardElement?.parentElement
-//     ?.parentElement as HTMLElement
-
-//   const cardBBox = translateParentElement.getBoundingClientRect()
-
-//   const allCards = Array.from(parentElement.querySelectorAll('.card'))
-//   const primaryCard = allCards[allCards.length - 1]
-//   const secondaryCards = allCards.slice(0, allCards.length)
-
-//   const cardOffset = 50
-//   const totalCardOffset = cardOffset * secondaryCards.length
-
-//   const mainCard = createAnimation()
-//     .addElement(cardElement)
-//     .easing('cubic-bezier(0.32, 0.72, 0, 1)')
-//     .keyframes([
-//       {
-//         offset: 0,
-//         transform: `translate(${cardBBox.x}px, 0)`,
-//         opacity: 1,
-//       },
-//       {
-//         offset: 0.7,
-//         transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
-//         opacity: 1,
-//       },
-//       {
-//         offset: 1,
-//         transform: `translate(${cardBBox.x}px, calc(${cardBBox.top - 60}px)`,
-//         opacity: 1,
-//       },
-//     ])
-//     .onFinish(() => rootAnimation.play())
-
-//   secondaryCards.forEach((card, i) => {
-//     const cardAnimation = createAnimation()
-//       .addElement(card)
-//       .easing('cubic-bezier(0.32, 0.72, 0, 1)')
-//       .keyframes([
-//         {
-//           offset: 0,
-//           transform: `translate(0, 0)`,
-//           opacity: 1,
-//         },
-//         {
-//           offset: 0.7,
-//           transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
-//             cardBBox.top - 70 + 10 * (i + 1)
-//           }px)`,
-//           opacity: 1,
-//         },
-//         {
-//           offset: 1,
-//           transform: `translate(calc(-${93.5 * i}vw + ${cardBBox.x}px), ${
-//             cardBBox.top - 70 + 10 * (i + 1)
-//           }px)`,
-//           opacity: 1,
-//         },
-//       ])
-
-//     rootAnimation.addAnimation(cardAnimation)
-//   })
-
-//   return rootAnimation.addAnimation([mainCard])
-// }

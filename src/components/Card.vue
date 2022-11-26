@@ -12,7 +12,7 @@
           card.asset_contract === null ? 'NFT Token' : card.asset_contract.name
         "
       />
-      <div class="absolute top-[10px] left-[10px]">
+      <div class="font-poppins absolute top-[10px] left-[10px]">
         <p class="font-medium text-lg truncate text-ellipsis w-[300px]">
           {{ card.name }}
         </p>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { IonImg, IonItem, IonLabel } from '@ionic/vue'
+import { IonImg } from '@ionic/vue'
 import { ICard } from '../interfaces'
 
 interface IProps {

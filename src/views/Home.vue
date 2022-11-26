@@ -5,12 +5,15 @@
       :scroll-events="true"
       @ion-scroll="ionScroll"
       @ion-scroll-end="ionScrollEnd"
-      :force-overscroll="true"
+      :force-overscroll="false"
     >
+      <div class="height-100"></div>
       <div class="header">
-        <ion-title class="float-left text-[34px] font-black">Wallet</ion-title>
+        <ion-title class="font-poppins float-left text-[34px] font-black"
+          >Wallet</ion-title
+        >
         <ion-button
-          class="transform-top-left text-white pointer-events-none absolute left-0 opacity-0 font-semibold m-0 float-left"
+          class="transform-top-left font-poppins text-white pointer-events-none absolute left-0 opacity-0 font-semibold m-0 float-left"
           fill="clear"
           >Done</ion-button
         >
@@ -28,7 +31,7 @@
         <div class="float-clear"></div>
       </div>
 
-      <div v-if="isLoading" class="card-groups mt-[10px]">
+      <div v-if="isLoading" class="`card-groups mt-[10px]">
         <div
           class="card-group w-full relative block trans-slow"
           v-for="(card, index) in nftCardGroups"
@@ -87,24 +90,25 @@ const isLoading = ref(false)
 let offset = 0
 const space = ref(45)
 const gap = ref(10)
-const isScrolling = ref(false)
 const prevY = ref<null | number>(0)
 const timer = ref<NodeJS.Timer | null>(null)
+const scrollTimer = ref<NodeJS.Timer | null>(null)
 const step = ref(0.7)
 const nftCardList = computed(() => store.state.nftCardList)
 
 const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
   let y = e.detail.scrollTop
   prevY.value = e.detail.startY
+  console.log('e.detail.scrollTop', e.detail.scrollTop)
 
-  if (e.detail.scrollTop < 100) {
+  if (e.detail.scrollTop < 150 + 1) {
     if (timer.value) {
       clearInterval(timer.value)
       step.value = 0.3
     }
     if (prevY.value !== null) {
-      const delta = (y - prevY.value) / 40.0
-      gap.value = Math.max(10, Math.min(40, gap.value - delta))
+      const delta = (y - prevY.value) / 60.0
+      gap.value = Math.max(10, Math.min(20, gap.value - delta))
     }
     prevY.value = y
   } else {
@@ -114,7 +118,7 @@ const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
     }
     if (prevY.value !== null) {
       const delta = (y - prevY.value) / 60.0
-      gap.value = Math.max(10, Math.min(25, gap.value - delta))
+      gap.value = Math.max(10, Math.min(15, gap.value - delta))
     }
   }
 }
@@ -132,8 +136,19 @@ const ionScrollEnd = () => {
       }
       step.value += 0.3
     }
-  }, 30)
+  }, 20)
   prevY.value = null
+
+  if (!scrollTimer.value) {
+    scrollTimer.value = setInterval(() => {
+      const element = document.querySelector('ion-content')
+      const shadowElement = element?.shadowRoot?.querySelector(
+        'main'
+      ) as HTMLElement
+      if (shadowElement.scrollTop < 150)
+        shadowElement.scrollTop = Math.min(150, shadowElement.scrollTop + 5)
+    }, 20)
+  }
 }
 
 onMounted(async () => {
@@ -163,7 +178,7 @@ const loadmore = async (offset: number) => {
 const ionInfinite = (ev: IonInfiniteCustomEvent) => {
   offset++
   loadmore(offset)
-  setTimeout(() => ev.target.complete(), 1000)
+  setTimeout(() => ev.target.complete(), 1500)
 }
 </script>
 
@@ -207,5 +222,14 @@ ion-title {
 
 .card-group {
   transform-origin: top;
+}
+
+/* ion-content::part(scroll) {
+  margin-top: -150px;
+  padding-top: 350px;
+} */
+
+.height-100 {
+  height: 150px;
 }
 </style>

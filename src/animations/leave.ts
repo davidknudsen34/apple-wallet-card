@@ -23,6 +23,42 @@ const createRootAnimation = (
       { offset: 1, opacity: 1 },
     ])
 
+  let foundMainCard = false
+  const allCards = Array.from(baseEl.querySelectorAll('.card-group'))
+  let beforeCards = [] as HTMLElement[]
+  let afterCards = [] as HTMLElement[]
+
+  const cardElement = elementRef?.parentElement?.parentElement
+  console.log('leave cardElement', cardElement, 'elementRef', elementRef)
+  allCards.forEach((card) => {
+    if (card === cardElement) {
+      foundMainCard = true
+    } else {
+      if (foundMainCard) {
+        afterCards.push(card as HTMLElement)
+      } else {
+        beforeCards.push(card as HTMLElement)
+      }
+    }
+  })
+
+  console.log('beforeCards', beforeCards, 'afterCards', afterCards)
+
+  const beforeCardsAnimation = createAnimation()
+    .addElement(beforeCards)
+    .keyframes([
+      { offset: 0, transform: 'translate(0, 0) scale(1)', opacity: 1 },
+      { offset: 0.4, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
+      { offset: 1, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
+    ])
+
+    const afterCardsAnimation = createAnimation()
+    .addElement(afterCards)
+    .keyframes([
+      { offset: 0, transform: 'translate(0, 0)' },
+      { offset: 1, transform: 'translate(0, 100vh)' },
+    ])
+
   const appHome = createAnimation()
     .duration(duration || 600)
     .addElement(baseEl.querySelector('#app-home') as HTMLElement)

@@ -24,12 +24,7 @@
 
 <script lang="ts" setup>
 import {
-  IonIcon,
-  IonItem,
   IonContent,
-  IonList,
-  IonListHeader,
-  IonLabel,
   useIonRouter,
 } from '@ionic/vue'
 
@@ -101,15 +96,11 @@ ion-item .transaction-detail .price {
 
 .transactions-list {
   width: calc(100% - 32px);
-  animation: transactionList 2s;
+  animation: transactionList 2.5s;
 }
 
 @keyframes transactionList {
-  from {
-    top: 5000px;
-  }
-  to {
-    top: 270px;
-  }
+  0% { opacity: 0; scale: 0;}
+  100% { opacity: 1; scale: 1;}
 }
 </style>

@@ -53,8 +53,9 @@ const createRootAnimation = (
   //  * TODO: See if you can find a way to do this without using a loop!
   //  */
   const cardElement =
-    elementRef?.parentElement?.parentElement?.parentElement?.parentElement
-      ?.parentElement
+  elementRef?.parentElement?.parentElement?.parentElement?.parentElement
+  ?.parentElement
+  console.log('enter elementRef', elementRef)
   allCards.forEach((card) => {
     if (card === cardElement) {
       foundMainCard = true
@@ -119,7 +120,7 @@ export const createTransactionEnterAnimation = (
 
   const mainCard = createAnimation()
     .addElement(parentElement)
-    .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
+    // .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
     .keyframes([
       { offset: 0, transform: 'translate(0, 0)' },
       {

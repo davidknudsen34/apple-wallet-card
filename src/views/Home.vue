@@ -84,6 +84,7 @@ import { IonContentCustomEvent, ScrollDetail } from '@ionic/core'
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
 import { ICard } from '../interfaces'
+import { shadow } from '@ionic/core/dist/types/utils/transition/ios.transition'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 const isLoading = ref(false)
@@ -99,9 +100,8 @@ const nftCardList = computed(() => store.state.nftCardList)
 const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
   let y = e.detail.scrollTop
   prevY.value = e.detail.startY
-  console.log('e.detail.scrollTop', e.detail.scrollTop)
 
-  if (e.detail.scrollTop < 150 + 1) {
+  if (e.detail.scrollTop < 151) {
     if (timer.value) {
       clearInterval(timer.value)
       step.value = 0.3
@@ -152,6 +152,9 @@ const ionScrollEnd = () => {
 }
 
 onMounted(async () => {
+  const element = document.querySelector('ion-content')
+  const shadowElement = element?.shadowRoot?.querySelector('main') as HTMLElement
+  shadowElement.scrollTop = 150
   await store.dispatch('mutateNftCardListAsync', offset)
   isLoading.value = true
 })

@@ -53,9 +53,8 @@ const createRootAnimation = (
   //  * TODO: See if you can find a way to do this without using a loop!
   //  */
   const cardElement =
-  elementRef?.parentElement?.parentElement?.parentElement?.parentElement
-  ?.parentElement
-  console.log('enter elementRef', elementRef)
+    elementRef?.parentElement?.parentElement?.parentElement?.parentElement
+      ?.parentElement
   allCards.forEach((card) => {
     if (card === cardElement) {
       foundMainCard = true

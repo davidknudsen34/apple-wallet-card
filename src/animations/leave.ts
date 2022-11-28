@@ -29,7 +29,6 @@ const createRootAnimation = (
   let afterCards = [] as HTMLElement[]
 
   const cardElement = elementRef?.parentElement?.parentElement
-  console.log('leave cardElement', cardElement, 'elementRef', elementRef)
   allCards.forEach((card) => {
     if (card === cardElement) {
       foundMainCard = true
@@ -42,21 +41,11 @@ const createRootAnimation = (
     }
   })
 
-  console.log('beforeCards', beforeCards, 'afterCards', afterCards)
-
-  const beforeCardsAnimation = createAnimation()
-    .addElement(beforeCards)
-    .keyframes([
-      { offset: 0, transform: 'translate(0, 0) scale(1)', opacity: 1 },
-      { offset: 0.4, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
-      { offset: 1, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
-    ])
-
-    const afterCardsAnimation = createAnimation()
+  const afterCardsAnimation = createAnimation()
     .addElement(afterCards)
     .keyframes([
-      { offset: 0, transform: 'translate(0, 0)' },
-      { offset: 1, transform: 'translate(0, 100vh)' },
+      { offset: 0, transform: 'translate(0, 100vh)' },
+      { offset: 1, transform: 'translate(0, 0)' },
     ])
 
   const appHome = createAnimation()
@@ -69,7 +58,7 @@ const createRootAnimation = (
     ])
     .beforeRemoveClass('ion-page-hidden')
 
-  return rootAnimation.addAnimation([cardDetail, appHome])
+  return rootAnimation.addAnimation([cardDetail, afterCardsAnimation, appHome])
 }
 
 export const createTransactionLeaveAnimation = (
@@ -86,7 +75,7 @@ export const createTransactionLeaveAnimation = (
     baseEl,
     presentingEl,
     opts,
-    cardElement,
+    translateCardElement,
     2400
   )
 

@@ -76,7 +76,7 @@ export const createTransactionLeaveAnimation = (
     presentingEl,
     opts,
     translateCardElement,
-    2400
+    1800
   )
 
   const transactionsList = createAnimation()
@@ -84,6 +84,7 @@ export const createTransactionLeaveAnimation = (
     .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
     .keyframes([
       { offset: 0, opacity: 1 },
+      { offset: 0.3, opacity: 0 },
       { offset: 1, opacity: 0 },
     ])
 
@@ -102,14 +103,14 @@ export const createTransactionLeaveAnimation = (
         }px + var(--ion-safe-area-top)))`,
       },
       {
-        offset: 0.7,
+        offset: 0.9,
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,
         opacity: 1,
       },
       {
-        offset: 0.7,
+        offset: 0.9,
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,

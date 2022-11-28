@@ -23,10 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  IonContent,
-  useIonRouter,
-} from '@ionic/vue'
+import { IonContent, useIonRouter } from '@ionic/vue'
 
 import Card from './Card.vue'
 import { createTransactionLeaveAnimation } from '../animations/leave'
@@ -96,11 +93,17 @@ ion-item .transaction-detail .price {
 
 .transactions-list {
   width: calc(100% - 32px);
-  animation: transactionList 2.5s;
+  animation: transactionList 2.4s;
 }
 
 @keyframes transactionList {
-  0% { opacity: 0; scale: 0;}
-  100% { opacity: 1; scale: 1;}
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
 }
 </style>

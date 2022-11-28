@@ -76,7 +76,7 @@ export const createTransactionLeaveAnimation = (
     presentingEl,
     opts,
     translateCardElement,
-    1800
+    2400
   )
 
   const transactionsList = createAnimation()
@@ -103,14 +103,14 @@ export const createTransactionLeaveAnimation = (
         }px + var(--ion-safe-area-top)))`,
       },
       {
-        offset: 0.9,
+        offset: 0.7,
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,
         opacity: 1,
       },
       {
-        offset: 0.9,
+        offset: 0.7,
         transform: `translate(0, calc(${
           cardBBox.top - 60
         }px + var(--ion-safe-area-top)))`,

@@ -42,6 +42,7 @@ const createRootAnimation = (
   })
 
   const afterCardsAnimation = createAnimation()
+    .duration(1200)
     .addElement(afterCards)
     .keyframes([
       { offset: 0, transform: 'translate(0, 100vh)' },
@@ -76,7 +77,7 @@ export const createTransactionLeaveAnimation = (
     presentingEl,
     opts,
     translateCardElement,
-    2400
+    2000
   )
 
   const transactionsList = createAnimation()

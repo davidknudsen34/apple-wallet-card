@@ -93,6 +93,7 @@ ion-item .transaction-detail .price {
 
 .transactions-list {
   width: calc(100% - 32px);
+  position: absolute;
   animation: transactionList 2.4s;
 }
 
@@ -100,6 +101,7 @@ ion-item .transaction-detail .price {
   0% {
     opacity: 0;
     scale: 0;
+    top: calc(80% + 250px);
   }
   100% {
     opacity: 1;

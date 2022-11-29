@@ -151,12 +151,16 @@ const ionScrollEnd = () => {
   }
 }
 
+
+const element = document.querySelector('ion-content')
+const shadowElement = element?.shadowRoot?.querySelector('main') as HTMLElement
+
 onMounted(async () => {
   await store.dispatch('mutateNftCardListAsync', offset)
   isLoading.value = true
 
   document.querySelector('main')?.scrollTo(0, 0)
-})
+}, shadowElement)
 
 function generateCardOffset(index: number) {
   return (space.value + gap.value) * index

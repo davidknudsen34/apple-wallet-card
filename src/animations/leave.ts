@@ -95,7 +95,6 @@ export const createTransactionLeaveAnimation = (
 
   const mainCard = createAnimation()
     .addElement(parentElement)
-    // .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
     .keyframes([
       {
         offset: 0,

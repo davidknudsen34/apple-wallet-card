@@ -7,7 +7,7 @@
       @ion-scroll-end="ionScrollEnd"
       :force-overscroll="false"
     >
-      <div class="height-100"></div>
+      <div v-if="isLoading" class="height-150"></div>
       <div class="header">
         <ion-title class="font-poppins float-left text-[34px] font-black"
           >Wallet</ion-title
@@ -28,7 +28,7 @@
           name="ellipsis-horizontal-circle-sharp"
           class="pointer-events-none absolute right-0 transform-top-left opacity-0 text-[28px] m-0 float-right"
         ></ion-icon>
-        <div class="float-clear"></div>
+        <div class="clear-both"></div>
       </div>
 
       <div v-if="isLoading" class="`card-groups mt-[10px]">
@@ -76,15 +76,17 @@ import {
   IonIcon,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonInfiniteCustomEvent,
   IonSpinner,
 } from '@ionic/vue'
-import { IonContentCustomEvent, ScrollDetail } from '@ionic/core'
+import {
+  IonContentCustomEvent,
+  ScrollDetail,
+  InfiniteScrollCustomEvent,
+} from '@ionic/core'
 
 import CardGroup from '../components/CardGroup.vue'
 import store from '../store'
 import { ICard } from '../interfaces'
-import { shadow } from '@ionic/core/dist/types/utils/transition/ios.transition'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 const isLoading = ref(false)
@@ -152,10 +154,14 @@ const ionScrollEnd = () => {
 }
 
 onMounted(async () => {
+  isLoading.value = false
   await store.dispatch('mutateNftCardListAsync', offset)
   isLoading.value = true
-
-  document.querySelector('main')?.scrollTo(0, 0)
+  const element = document.querySelector('ion-content')
+  const shadowElement = element?.shadowRoot?.querySelector(
+    'main'
+  ) as HTMLElement
+  shadowElement.scrollTop = 150
 })
 
 function generateCardOffset(index: number) {
@@ -177,7 +183,7 @@ const loadmore = async (offset: number) => {
   }
 }
 
-const ionInfinite = (ev: IonInfiniteCustomEvent) => {
+const ionInfinite = (ev: InfiniteScrollCustomEvent) => {
   offset++
   loadmore(offset)
   setTimeout(() => ev.target.complete(), 1500)
@@ -226,12 +232,7 @@ ion-title {
   transform-origin: top;
 }
 
-/* ion-content::part(scroll) {
-  margin-top: -150px;
-  padding-top: 350px;
-} */
-
-.height-100 {
+.height-150 {
   height: 150px;
 }
 </style>

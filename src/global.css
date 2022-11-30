@@ -9,18 +9,6 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
-
-.float-clear {
-  clear: both;
-}
-
 .trans {
   transition: 0.2s all ease-in-out;
 }

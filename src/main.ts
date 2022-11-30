@@ -4,7 +4,6 @@ import router from './router'
 
 import { IonicVue } from '@ionic/vue'
 import { GesturePlugin } from '@vueuse/gesture'
-import StarportPlugin from 'vue-starport'
 
 import store from './store'
 /* Core CSS required for Ionic components to work properly */
@@ -32,8 +31,6 @@ import 'virtual:windi-devtools'
 
 const app = createApp(App).use(store).use(IonicVue).use(router)
 
-// app.use(StarportPlugin())
-app.use(StarportPlugin({ keepAlive: true }))
 app.use(GesturePlugin)
 
 router.isReady().then(() => {

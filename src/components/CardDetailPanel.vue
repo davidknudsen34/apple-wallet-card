@@ -23,34 +23,30 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from 'vue'
 import { IonContent, useIonRouter } from '@ionic/vue'
 
 import Card from './Card.vue'
 import { createTransactionLeaveAnimation } from '../animations/leave'
-import { ICard } from '../interfaces'
+import type { ICard } from '../interfaces'
+import { domSelector } from '../utils'
 
 interface IProps {
   group: ICard
 }
 
 const props = defineProps<IProps>()
-const { group } = props
+const { group } = toRefs(props)
 const router = useIonRouter()
-
-const presentingEl =
-  document && (document.querySelector('#app-home') as HTMLElement)
 
 const goBack = () => {
   router.push('/home', (baseEl, opts) =>
     createTransactionLeaveAnimation(
       baseEl,
       opts,
-      presentingEl,
-      document &&
-        (baseEl.querySelector(
-          `#transaction-${group.slug} .card`
-        ) as HTMLElement),
-      document && (baseEl.querySelector(`#card-${group.slug}`) as HTMLElement)
+      domSelector('#app-home', baseEl),
+      domSelector(`#transaction-${group.value.slug} .card`, baseEl),
+      domSelector(`#card-${group.value.slug}`, baseEl)
     )
   )
 }

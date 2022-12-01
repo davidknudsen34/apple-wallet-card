@@ -1,5 +1,7 @@
 import { createAnimation } from '@ionic/vue'
 
+import { domSelector, allDomSelector } from '../utils'
+
 /**
  * TODO: There is some pretty gnarly strings/math/values in this file.
  * It would be nice to find a way to better generalize it to
@@ -19,19 +21,14 @@ const createRootAnimation = (
     .easing('cubic-bezier(0.32, 0.72, 0, 1)')
 
   const homePageTitle = createAnimation()
-    .addElement(
-      baseEl && (baseEl.querySelector('.header ion-title') as HTMLElement)
-    )
+    .addElement(domSelector('.header ion-title', baseEl))
     .keyframes([
       { offset: 0, opacity: 1, transform: 'translate(0, 0) scale(1)' },
       { offset: 1, opacity: 0, transform: 'translate(0, -40px) scale(0.6)' },
     ])
 
   const homePageButton = createAnimation()
-    .addElement(
-      baseEl &&
-        (baseEl.querySelector('.header ion-icon.add-to-wallet') as HTMLElement)
-    )
+    .addElement(domSelector('.header ion-icon.add-to-wallet', baseEl))
     .keyframes([
       { offset: 0, opacity: 1, transform: 'translate(0, 0) scale(1)' },
       {
@@ -48,7 +45,7 @@ const createRootAnimation = (
   //  * cards above it should move up and away.
   //  */
   let foundMainCard = false
-  const allCards = Array.from(baseEl && baseEl.querySelectorAll('.card-group'))
+  const allCards = Array.from(allDomSelector('.card-group', baseEl))
   let beforeCards = [] as HTMLElement[]
   let afterCards = [] as HTMLElement[]
 
@@ -109,9 +106,7 @@ export const createTransactionEnterAnimation = (
   )
 
   const transactionsList = createAnimation()
-    .addElement(
-      baseEl && (baseEl.querySelector('.transactions-list') as HTMLElement)
-    )
+    .addElement(domSelector('.transactions-list', baseEl))
     .keyframes([
       { offset: 0, opacity: 0 },
       { offset: 1, opacity: 1 },

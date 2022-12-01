@@ -17,7 +17,6 @@
           fill="clear"
           >Done</ion-button
         >
-
         <ion-icon
           name="add-circle"
           slot="icon-only"
@@ -66,7 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import {
   IonContent,
   IonButton,
@@ -88,6 +87,7 @@ import { storeToRefs } from 'pinia'
 import CardWrapper from '../components/CardWrapper.vue'
 import { useCardsStore } from '../store'
 import { ICard } from '../interfaces'
+import { domSelector } from '../utils'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 const isLoading = ref(false)
@@ -147,12 +147,12 @@ const ionScrollEnd = () => {
 
   if (!scrollTimer.value) {
     scrollTimer.value = setInterval(() => {
-      const element = document && document.querySelector('ion-content')
-      const shadowElement = element?.shadowRoot?.querySelector(
-        'main'
-      ) as HTMLElement
-      if (shadowElement.scrollTop < 150)
-        shadowElement.scrollTop = Math.min(150, shadowElement.scrollTop + 5)
+      const element = domSelector('ion-content', document.documentElement)
+      if (element && element.shadowRoot) {
+        const shadowElement = domSelector('main', element?.shadowRoot)
+        if (shadowElement.scrollTop < 150)
+          shadowElement.scrollTop = Math.min(150, shadowElement.scrollTop + 5)
+      }
     }, 20)
   }
 }
@@ -161,11 +161,11 @@ onMounted(async () => {
   isLoading.value = false
   await mutateNftCardListAsync(offset)
   isLoading.value = true
-  const element = document && document.querySelector('ion-content')
-  const shadowElement = element?.shadowRoot?.querySelector(
-    'main'
-  ) as HTMLElement
-  shadowElement.scrollTop = 150
+  const element = domSelector('ion-content', document.documentElement)
+  if (element && element.shadowRoot) {
+    const shadowElement = domSelector('main', element?.shadowRoot)
+    shadowElement.scrollTop = 150
+  }
 })
 
 function generateCardOffset(index: number) {

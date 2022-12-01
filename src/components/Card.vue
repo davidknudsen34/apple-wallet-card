@@ -1,11 +1,11 @@
 <template>
-  <div class="card-container" :class="[mask ? 'card-mask' : '']">
+  <div class="w-full" :class="[mask ? 'h-[240px] overflow-hidden' : '']">
     <div class="card transition-card relative">
       <ion-img
-        class="h-[240px] object-cover bg-black"
+        class="h-[240px] object-cover bg-black rounded-sm border-2 border-[#1a1a1a]"
         :src="
           card.asset_contract === null
-            ? image_url
+            ? '/assets/img/pic.png'
             : card.asset_contract.image_url
         "
         :alt="
@@ -25,7 +25,9 @@
 </template>
 
 <script lang="ts" setup>
+import { toRefs } from 'vue'
 import { IonImg } from '@ionic/vue'
+
 import { ICard } from '../interfaces'
 
 interface IProps {
@@ -34,26 +36,10 @@ interface IProps {
 }
 
 const props = defineProps<IProps>()
-const { card, mask } = props
-
-const image_url = '/assets/img/pic.png'
+const { card, mask } = toRefs(props)
 </script>
 
 <style scoped>
-.card-container {
-  width: 100%;
-}
-.card-container.card-mask {
-  height: 240px;
-  overflow: hidden;
-}
-
-.card-container .card ion-img {
-  border-radius: 2px;
-  border-width: 2px;
-  border-color: #1a1a1a;
-}
-
 .transition-card {
   transition: all 5s;
 }

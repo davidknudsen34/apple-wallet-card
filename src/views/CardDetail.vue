@@ -33,12 +33,13 @@ import {
   useIonRouter,
 } from '@ionic/vue'
 import { useRoute } from 'vue-router'
-import { createTransactionLeaveAnimation } from '../animations/leave'
 import { storeToRefs } from 'pinia'
 
 import { useCardsStore } from '../store'
 import CardDetailPanel from '../components/CardDetailPanel.vue'
 import { ICard } from '../interfaces'
+import { domSelector } from '../utils'
+import { createTransactionLeaveAnimation } from '../animations/leave'
 
 const router = useIonRouter()
 const route = useRoute()
@@ -50,23 +51,14 @@ const selectedCardGroup: ICard[] = nftCardList.value.filter(
   (cardGroup: ICard, index: number) => cardGroup.slug === route.params.slug
 )
 
-const presentingEl =
-  document && (document.querySelector('#app-home') as HTMLElement)
-
 function goBack() {
   router.push('/home', (baseEl, opts) =>
     createTransactionLeaveAnimation(
       baseEl,
       opts,
-      presentingEl,
-      baseEl &&
-        (baseEl.querySelector(
-          `#transaction-${selectedCardGroup[0].slug} .card`
-        ) as HTMLElement),
-      baseEl &&
-        (baseEl.querySelector(
-          `#card-${selectedCardGroup[0].slug}`
-        ) as HTMLElement)
+      domSelector('#app-home', baseEl),
+      domSelector(`#transaction-${selectedCardGroup[0].slug} .card`, baseEl),
+      domSelector(`#card-${selectedCardGroup[0].slug}`, baseEl)
     )
   )
 }

@@ -6,27 +6,30 @@
 
 <script lang="ts" setup>
 import { useIonRouter } from '@ionic/vue'
-
-import { createTransactionEnterAnimation } from '../animations/enter'
+import { toRefs } from 'vue'
 
 import Card from './Card.vue'
-import { ICard } from '../interfaces'
+import { createTransactionEnterAnimation } from '../animations/enter'
+import { domSelector } from '../utils'
+import { ICard, CardWrapperProps } from '../interfaces'
+
+const router = useIonRouter()
 
 interface IProps {
   card: ICard
 }
 
-const router = useIonRouter()
-
-const props = defineProps<IProps>()
-const { card } = props
-
-const presentingEl =
-  document && (document.querySelector('#app-home') as HTMLElement)
+const props = defineProps<CardWrapperProps>()
+const { card } = toRefs(props)
 
 const showDetail = (e: MouseEvent) => {
-  router.push(`/card/${card.slug}`, (baseEl, opts) =>
-    createTransactionEnterAnimation(baseEl, opts, presentingEl, e.target)
+  router.push(`/card/${card.value.slug}`, (baseEl, opts) =>
+    createTransactionEnterAnimation(
+      baseEl,
+      opts,
+      domSelector('#app-home', baseEl),
+      e.target
+    )
   )
 }
 </script>

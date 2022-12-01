@@ -1,4 +1,5 @@
 import { createAnimation } from '@ionic/vue'
+import { allDomSelector, domSelector } from '../utils'
 
 const createRootAnimation = (
   baseEl: HTMLElement,
@@ -16,7 +17,7 @@ const createRootAnimation = (
 
   const cardDetail = createAnimation()
     .duration(duration || 600)
-    .addElement(baseEl && (baseEl.querySelector('#card-detail') as HTMLElement))
+    .addElement(domSelector('#card-detail', baseEl))
     .keyframes([
       { offset: 0, opacity: 1, zIndex: 26 },
       { offset: 0.7, opacity: 1 },
@@ -24,7 +25,7 @@ const createRootAnimation = (
     ])
 
   let foundMainCard = false
-  const allCards = Array.from(baseEl && baseEl.querySelectorAll('.card-group'))
+  const allCards = Array.from(allDomSelector('.card-group', baseEl))
   let beforeCards = [] as HTMLElement[]
   let afterCards = [] as HTMLElement[]
 
@@ -51,7 +52,7 @@ const createRootAnimation = (
 
   const appHome = createAnimation()
     .duration(duration || 600)
-    .addElement(baseEl && (baseEl.querySelector('#app-home') as HTMLElement))
+    .addElement(domSelector('#app-home', baseEl))
     .keyframes([
       { offset: 0, opacity: 1, zIndex: 24 },
       { offset: 0.7, opacity: 1 },
@@ -81,7 +82,7 @@ export const createTransactionLeaveAnimation = (
   )
 
   const transactionsList = createAnimation()
-    .addElement(baseEl && baseEl.querySelectorAll('.transactions-list'))
+    .addElement(allDomSelector('.transactions-list', baseEl))
     .easing('cubic-bezier(0.17, 0.67, 0.22, 1.26)')
     .keyframes([
       { offset: 0, opacity: 1 },

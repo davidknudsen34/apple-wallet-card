@@ -11,7 +11,7 @@ import { toRefs } from 'vue'
 import Card from './Card.vue'
 import { createTransactionEnterAnimation } from '../animations/enter'
 import { domSelector } from '../utils'
-import { ICard, CardWrapperProps } from '../interfaces'
+import { ICard } from '../interfaces'
 
 const router = useIonRouter()
 
@@ -19,7 +19,7 @@ interface IProps {
   card: ICard
 }
 
-const props = defineProps<CardWrapperProps>()
+const props = defineProps<IProps>()
 const { card } = toRefs(props)
 
 const showDetail = (e: MouseEvent) => {

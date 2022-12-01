@@ -52,16 +52,3 @@ export interface ICard {
   seaport_sell_orders: []
   slug: string
 }
-
-export interface CardPanelProps {
-  group: ICard
-}
-
-export interface CardProps {
-  card: ICard
-  mask: boolean
-}
-
-export interface CardWrapperProps {
-  card: ICard
-}

@@ -40,7 +40,7 @@
             top: `${generateCardOffset(index)}px`,
           }"
         >
-          <card-group :card="card" />
+          <card-wrapper :card="card" />
         </div>
       </div>
       <div v-else class="text-center">
@@ -83,9 +83,10 @@ import {
   ScrollDetail,
   InfiniteScrollCustomEvent,
 } from '@ionic/core'
+import { storeToRefs } from 'pinia'
 
-import CardGroup from '../components/CardGroup.vue'
-import store from '../store'
+import CardWrapper from '../components/CardWrapper.vue'
+import { useCardsStore } from '../store'
 import { ICard } from '../interfaces'
 
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
@@ -97,7 +98,10 @@ const prevY = ref<null | number>(0)
 const timer = ref<NodeJS.Timer | null>(null)
 const scrollTimer = ref<NodeJS.Timer | null>(null)
 const step = ref(0.7)
-const nftCardList = computed(() => store.state.nftCardList)
+
+const cardList = useCardsStore()
+const { nftCardList } = storeToRefs(cardList)
+const { mutateNftCardListAsync } = cardList
 
 const ionScroll = (e: IonContentCustomEvent<ScrollDetail>) => {
   let y = e.detail.scrollTop
@@ -143,7 +147,7 @@ const ionScrollEnd = () => {
 
   if (!scrollTimer.value) {
     scrollTimer.value = setInterval(() => {
-      const element = document.querySelector('ion-content')
+      const element = document && document.querySelector('ion-content')
       const shadowElement = element?.shadowRoot?.querySelector(
         'main'
       ) as HTMLElement
@@ -155,9 +159,9 @@ const ionScrollEnd = () => {
 
 onMounted(async () => {
   isLoading.value = false
-  await store.dispatch('mutateNftCardListAsync', offset)
+  await mutateNftCardListAsync(offset)
   isLoading.value = true
-  const element = document.querySelector('ion-content')
+  const element = document && document.querySelector('ion-content')
   const shadowElement = element?.shadowRoot?.querySelector(
     'main'
   ) as HTMLElement
@@ -176,7 +180,7 @@ watch(nftCardList, () => {
 
 const loadmore = async (offset: number) => {
   try {
-    await store.dispatch('mutateNftCardListAsync', offset)
+    await mutateNftCardListAsync(offset)
     nftCardGroups.value = nftCardList.value
   } catch (error) {
     console.error('error', error)

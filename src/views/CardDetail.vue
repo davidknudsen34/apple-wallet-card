@@ -18,12 +18,11 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <transaction-card-detail :group="selectedCardGroup[0]" />
+    <card-detail-panel :group="selectedCardGroup[0]" />
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import {
   IonButtons,
   IonButton,
@@ -35,21 +34,24 @@ import {
 } from '@ionic/vue'
 import { useRoute } from 'vue-router'
 import { createTransactionLeaveAnimation } from '../animations/leave'
+import { storeToRefs } from 'pinia'
 
-import store from '../store'
-import TransactionCardDetail from '../components/TransactionCardDetail.vue'
+import { useCardsStore } from '../store'
+import CardDetailPanel from '../components/CardDetailPanel.vue'
 import { ICard } from '../interfaces'
 
 const router = useIonRouter()
 const route = useRoute()
 
-const nftCardList = computed(() => store.state.nftCardList)
+const cardList = useCardsStore()
+const { nftCardList } = storeToRefs(cardList)
 
 const selectedCardGroup: ICard[] = nftCardList.value.filter(
   (cardGroup: ICard, index: number) => cardGroup.slug === route.params.slug
 )
 
-const presentingEl = document.querySelector('#app-home') as HTMLElement
+const presentingEl =
+  document && (document.querySelector('#app-home') as HTMLElement)
 
 function goBack() {
   router.push('/home', (baseEl, opts) =>
@@ -57,10 +59,14 @@ function goBack() {
       baseEl,
       opts,
       presentingEl,
-      baseEl.querySelector(
-        `#transaction-${selectedCardGroup[0].slug} .card`
-      ) as HTMLElement,
-      baseEl.querySelector(`#card-${selectedCardGroup[0].slug}`) as HTMLElement
+      baseEl &&
+        (baseEl.querySelector(
+          `#transaction-${selectedCardGroup[0].slug} .card`
+        ) as HTMLElement),
+      baseEl &&
+        (baseEl.querySelector(
+          `#card-${selectedCardGroup[0].slug}`
+        ) as HTMLElement)
     )
   )
 }

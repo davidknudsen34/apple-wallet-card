@@ -37,7 +37,8 @@ const props = defineProps<IProps>()
 const { group } = props
 const router = useIonRouter()
 
-const presentingEl = document.querySelector('#app-home') as HTMLElement
+const presentingEl =
+  document && (document.querySelector('#app-home') as HTMLElement)
 
 const goBack = () => {
   router.push('/home', (baseEl, opts) =>
@@ -45,8 +46,11 @@ const goBack = () => {
       baseEl,
       opts,
       presentingEl,
-      baseEl.querySelector(`#transaction-${group.slug} .card`) as HTMLElement,
-      baseEl.querySelector(`#card-${group.slug}`) as HTMLElement
+      document &&
+        (baseEl.querySelector(
+          `#transaction-${group.slug} .card`
+        ) as HTMLElement),
+      document && (baseEl.querySelector(`#card-${group.slug}`) as HTMLElement)
     )
   )
 }

@@ -19,7 +19,9 @@ const createRootAnimation = (
     .easing('cubic-bezier(0.32, 0.72, 0, 1)')
 
   const homePageTitle = createAnimation()
-    .addElement(baseEl.querySelector('.header ion-title') as HTMLElement)
+    .addElement(
+      baseEl && (baseEl.querySelector('.header ion-title') as HTMLElement)
+    )
     .keyframes([
       { offset: 0, opacity: 1, transform: 'translate(0, 0) scale(1)' },
       { offset: 1, opacity: 0, transform: 'translate(0, -40px) scale(0.6)' },
@@ -27,7 +29,8 @@ const createRootAnimation = (
 
   const homePageButton = createAnimation()
     .addElement(
-      baseEl.querySelector('.header ion-icon.add-to-wallet') as HTMLElement
+      baseEl &&
+        (baseEl.querySelector('.header ion-icon.add-to-wallet') as HTMLElement)
     )
     .keyframes([
       { offset: 0, opacity: 1, transform: 'translate(0, 0) scale(1)' },
@@ -45,7 +48,7 @@ const createRootAnimation = (
   //  * cards above it should move up and away.
   //  */
   let foundMainCard = false
-  const allCards = Array.from(baseEl.querySelectorAll('.card-group'))
+  const allCards = Array.from(baseEl && baseEl.querySelectorAll('.card-group'))
   let beforeCards = [] as HTMLElement[]
   let afterCards = [] as HTMLElement[]
 
@@ -106,7 +109,9 @@ export const createTransactionEnterAnimation = (
   )
 
   const transactionsList = createAnimation()
-    .addElement(baseEl.querySelector('.transactions-list') as HTMLElement)
+    .addElement(
+      baseEl && (baseEl.querySelector('.transactions-list') as HTMLElement)
+    )
     .keyframes([
       { offset: 0, opacity: 0 },
       { offset: 1, opacity: 1 },

@@ -9,7 +9,7 @@ import { useIonRouter } from '@ionic/vue'
 
 import { createTransactionEnterAnimation } from '../animations/enter'
 
-import Card from '../components/Card.vue'
+import Card from './Card.vue'
 import { ICard } from '../interfaces'
 
 interface IProps {
@@ -21,7 +21,8 @@ const router = useIonRouter()
 const props = defineProps<IProps>()
 const { card } = props
 
-const presentingEl = document.querySelector('#app-home') as HTMLElement
+const presentingEl =
+  document && (document.querySelector('#app-home') as HTMLElement)
 
 const showDetail = (e: MouseEvent) => {
   router.push(`/card/${card.slug}`, (baseEl, opts) =>

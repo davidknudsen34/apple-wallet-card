@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import { createPinia } from 'pinia'
+
 import router from './router'
 
 import { IonicVue } from '@ionic/vue'
 import { GesturePlugin } from '@vueuse/gesture'
 
-import store from './store'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css'
 
@@ -29,7 +30,9 @@ import './global.css'
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 
-const app = createApp(App).use(store).use(IonicVue).use(router)
+const pinia = createPinia()
+
+const app = createApp(App).use(pinia).use(IonicVue).use(router)
 
 app.use(GesturePlugin)
 

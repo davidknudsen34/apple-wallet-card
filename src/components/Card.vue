@@ -4,9 +4,9 @@
       <ion-img
         class="h-[240px] object-cover bg-black rounded-[5px] border-2 border-[#1a1a1a]"
         :src="
-          card.asset_contract === null
-            ? '/assets/img/pic.png'
-            : card.asset_contract.image_url
+          card.asset_contract && card.asset_contract.image_url
+            ? card.asset_contract.image_url
+            : '/assets/img/pic.png'
         "
         :alt="
           card.asset_contract === null ? 'NFT Token' : card.asset_contract.name
@@ -42,5 +42,9 @@ const { card, mask } = toRefs(props)
 <style scoped>
 .transition-card {
   transition: all 5s;
+}
+
+ion-img::part(image) {
+  border-radius: 5px;
 }
 </style>

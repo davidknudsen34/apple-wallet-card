@@ -124,7 +124,7 @@ export const createTransactionEnterAnimation = (
       {
         offset: 1,
         transform: `translate(0, calc(-${
-          cardBBox.top - 60
+          cardBBox.top - 72
         }px + var(--ion-safe-area-top)))`,
       },
     ])

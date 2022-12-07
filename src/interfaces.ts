@@ -38,7 +38,7 @@ export interface AssetContract {
   schema_name: string
   seller_fee_basis_points: number
   symbol: string
-  total_supply: string
+  total_supply: string      
 }
 
 export interface ICard {

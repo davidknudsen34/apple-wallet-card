@@ -2,10 +2,11 @@
   <ion-page id="card-detail">
     <ion-header>
       <ion-toolbar>
-        <ion-buttons>
+        <ion-buttons class="uppercase">
           <ion-button
-            class="done font-poppins text-white opacity-[1]"
+            class="done font-poppins opacity-[1]"
             @click="goBack"
+            fill="clear"
             >Done</ion-button
           >
         </ion-buttons>
@@ -13,7 +14,7 @@
         <ion-buttons slot="end">
           <ion-icon
             name="ellipsis-horizontal-circle-sharp"
-            class="text-[28px]"
+            class="text-[28px] text-white"
           ></ion-icon>
         </ion-buttons>
       </ion-toolbar>

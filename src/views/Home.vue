@@ -12,21 +12,12 @@
         <ion-title class="font-poppins float-left text-[34px] font-black"
           >Wallet</ion-title
         >
-        <ion-button
-          class="transform-top-left font-poppins text-white pointer-events-none absolute left-0 opacity-0 font-semibold m-0 float-left"
-          fill="clear"
-          >Done</ion-button
-        >
         <ion-icon
           name="add-circle"
           slot="icon-only"
           class="float-right add-to-wallet trans text-[32px] my-2 mx-0"
         >
         </ion-icon>
-        <ion-icon
-          name="ellipsis-horizontal-circle-sharp"
-          class="pointer-events-none absolute right-0 transform-top-left opacity-0 text-[28px] m-0 float-right"
-        ></ion-icon>
         <div class="clear-both"></div>
       </div>
 
@@ -89,9 +80,9 @@ import { useCardsStore } from '../store'
 import { ICard } from '../interfaces'
 import { domSelector } from '../utils'
 
+let offset = 0
 const nftCardGroups = ref<Array<ICard>>([]) // change reactive
 const isLoading = ref(false)
-let offset = 0
 const space = ref(45)
 const gap = ref(10)
 const prevY = ref<null | number>(0)

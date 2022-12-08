@@ -7,7 +7,7 @@
       @ion-scroll-end="ionScrollEnd"
       :force-overscroll="false"
     >
-      <div v-if="isLoading" class="height-150"></div>
+      <div v-if="isLoading" class="h-[150px]"></div>
       <div class="header">
         <ion-title class="font-poppins float-left text-[34px] font-black"
           >Wallet</ion-title
@@ -189,11 +189,9 @@ const ionInfinite = (ev: InfiniteScrollCustomEvent) => {
 ion-content {
   --padding-top: calc(50px + var(--ion-safe-area-top));
 }
-
 .header {
   position: relative;
 }
-
 .header .transform-top-left {
   transform-origin: top left;
 }
@@ -206,28 +204,19 @@ ion-title {
   min-width: auto;
   transform-origin: top left;
 }
-
 .add-to-wallet {
   transform-origin: top right;
 }
-
 .add-to-wallet:active {
   opacity: 0.7;
 }
-
 .card-groups {
   z-index: 1;
 }
-
 .card-groups [data-v-9d82030b] {
   text-align: center;
 }
-
 .card-group {
   transform-origin: top;
-}
-
-.height-150 {
-  height: 150px;
 }
 </style>

@@ -14,7 +14,11 @@ export const useCardsStore = defineStore('cards', {
   actions: {
     async mutateNftCardListAsync(offset: number) {
       const { data } = await getNFTCards(offset)
-      this.nftCards = [...this.nftCards, ...data.bundles]
+      const dataT = data.bundles.map((item: ICard, index: number) => ({
+        ...item,
+        id: this.nftCardList.length + index + 1,
+      }))
+      this.nftCards = [...this.nftCards, ...dataT]
     },
   },
 })

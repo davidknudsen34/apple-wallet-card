@@ -3,7 +3,7 @@
     <div class="card-wrapper">
       <card
         :card="group"
-        :id="`transaction-${group.slug}`"
+        :id="`transaction-${group.id}`"
         :mask="false"
         @click="goBack"
       ></card>
@@ -45,8 +45,8 @@ const goBack = () => {
       baseEl,
       opts,
       domSelector('#app-home', baseEl),
-      domSelector(`#transaction-${group.value.slug} .card`, baseEl),
-      domSelector(`#card-${group.value.slug}`, baseEl)
+      domSelector(`#transaction-${group.value.id} .card`, baseEl),
+      domSelector(`#card-${group.value.id}`, baseEl)
     )
   )
 }
@@ -94,7 +94,7 @@ ion-item .transaction-detail .price {
 .transactions-list {
   width: calc(100% - 32px);
   position: absolute;
-  animation: transactionList 2.7s;
+  animation: transactionList 2.5s;
 }
 
 @keyframes transactionList {

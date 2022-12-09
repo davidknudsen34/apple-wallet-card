@@ -49,7 +49,7 @@ const cardList = useCardsStore()
 const { nftCardList } = storeToRefs(cardList)
 
 const selectedCardGroup: ICard[] = nftCardList.value.filter(
-  (cardGroup: ICard, index: number) => cardGroup.slug === route.params.slug
+  (cardGroup: ICard, index: number) => cardGroup.id === Number(route.params.id)
 )
 
 function goBack() {
@@ -58,8 +58,8 @@ function goBack() {
       baseEl,
       opts,
       domSelector('#app-home', baseEl),
-      domSelector(`#transaction-${selectedCardGroup[0].slug} .card`, baseEl),
-      domSelector(`#card-${selectedCardGroup[0].slug}`, baseEl)
+      domSelector(`#transaction-${selectedCardGroup[0].id}} .card`, baseEl),
+      domSelector(`#card-${selectedCardGroup[0].id}}`, baseEl)
     )
   )
 }

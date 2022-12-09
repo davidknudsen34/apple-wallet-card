@@ -1,6 +1,6 @@
 <template>
   <div class="card-wrapper absolute w-full" @click="showDetail">
-    <card :card="card" :id="`card-${card.slug}`" :mask="true"></card>
+    <card :card="card" :id="`card-${card.id}`" :mask="true"></card>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ const props = defineProps<IProps>()
 const { card } = toRefs(props)
 
 const showDetail = (e: MouseEvent) => {
-  router.push(`/card/${card.value.slug}`, (baseEl, opts) =>
+  router.push(`/card/${card.value.id}`, (baseEl, opts) =>
     createTransactionEnterAnimation(
       baseEl,
       opts,

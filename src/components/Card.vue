@@ -2,7 +2,7 @@
   <div class="w-full" :class="[mask ? 'h-[240px] overflow-hidden' : '']">
     <div class="card transition-card relative">
       <ion-img
-        class="h-[240px] object-cover bg-black rounded-[5px] border-2 border-[#1a1a1a]"
+        class="h-[240px] object-cover bg-black"
         :src="
           card.asset_contract && card.asset_contract.image_url
             ? card.asset_contract.image_url

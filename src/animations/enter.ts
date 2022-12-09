@@ -68,18 +68,19 @@ const createRootAnimation = (
   })
 
   const beforeCardsAnimation = createAnimation()
+    .duration(1200)
     .addElement(beforeCards)
     .keyframes([
-      { offset: 0, transform: 'translate(0, 0) scale(1)', opacity: 1 },
-      { offset: 0.4, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
-      { offset: 1, transform: 'translate(0, -20px) scale(0.4)', opacity: 0 },
+      { offset: 0, transform: 'translate(0, 0)' },
+      { offset: 1, transform: 'translate(0, -150vh)' },
     ])
 
   const afterCardsAnimation = createAnimation()
+    .duration(1500)
     .addElement(afterCards)
     .keyframes([
       { offset: 0, transform: 'translate(0, 0)' },
-      { offset: 1, transform: 'translate(0, 100vh)' },
+      { offset: 1, transform: 'translate(0, 150vh)' },
     ])
 
   return rootAnimation.addAnimation([

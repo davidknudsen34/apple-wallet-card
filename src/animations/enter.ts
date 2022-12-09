@@ -52,9 +52,7 @@ const createRootAnimation = (
   // /**
   //  * TODO: See if you can find a way to do this without using a loop!
   //  */
-  const cardElement =
-    elementRef?.parentElement?.parentElement?.parentElement?.parentElement
-      ?.parentElement
+  const cardElement = elementRef?.parentElement as HTMLElement
   allCards.forEach((card) => {
     if (card === cardElement) {
       foundMainCard = true
@@ -113,8 +111,7 @@ export const createTransactionEnterAnimation = (
       { offset: 1, opacity: 1 },
     ])
 
-  const parentElement = cardElement?.parentElement?.parentElement?.parentElement
-    ?.parentElement as HTMLElement
+  const parentElement = cardElement as HTMLElement
 
   const cardBBox = parentElement.getBoundingClientRect()
 

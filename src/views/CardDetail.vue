@@ -58,8 +58,8 @@ function goBack() {
       baseEl,
       opts,
       domSelector('#app-home', baseEl),
-      domSelector(`#transaction-${selectedCardGroup[0].id}} .card`, baseEl),
-      domSelector(`#card-${selectedCardGroup[0].id}}`, baseEl)
+      domSelector(`#transaction-${selectedCardGroup[0].id} .card`, baseEl),
+      domSelector(`#card-${selectedCardGroup[0].id}`, baseEl)
     )
   )
 }

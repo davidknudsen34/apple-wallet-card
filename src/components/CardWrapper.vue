@@ -1,5 +1,9 @@
 <template>
-  <div class="card-wrapper absolute w-full" @click="showDetail">
+  <div
+    :id="`card-wrapper-${card.id}`"
+    class="card-wrapper absolute w-full"
+    @click="showDetail"
+  >
     <card :card="card" :id="`card-${card.id}`" :mask="true"></card>
   </div>
 </template>
@@ -22,13 +26,13 @@ interface IProps {
 const props = defineProps<IProps>()
 const { card } = toRefs(props)
 
-const showDetail = (e: MouseEvent) => {
+const showDetail = () => {
   router.push(`/card/${card.value.id}`, (baseEl, opts) =>
     createTransactionEnterAnimation(
       baseEl,
       opts,
       domSelector('#app-home', baseEl),
-      e.target
+      domSelector(`#card-wrapper-${card.value.id}`, baseEl)
     )
   )
 }
